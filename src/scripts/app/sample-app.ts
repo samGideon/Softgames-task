@@ -145,7 +145,7 @@ export class SampleApp {
             (this.fireEffectContainer as any).stopEmitter();
             this.fireEffectContainer.visible = false;
          }
-        
+         this.menuContainer.visible = true;
         TweenLite.to(this.menuContainer, 0.5, {x:this.dimensions.gameWidth/2, alpha:1, ease:"Linear.easeOut"});
     }
 
@@ -253,6 +253,7 @@ export class SampleApp {
     private showCardsView():void{
         TweenLite.to(this.menuContainer, 0.5, {x:-500, alpha:0, ease:"Linear.easeOut",onComplete:() => {
         this.cardContainer.visible = true;
+        this.menuContainer.visible = false;
         this.backBtn.visible = true;
         TweenLite.from(this.cardContainer, 0.5, {alpha:0, ease:"Linear.easeOut"});
         (this.cardContainer as any).start();
@@ -262,6 +263,7 @@ export class SampleApp {
     private showTextView():void{
         TweenLite.to(this.menuContainer, 0.5, {x:-500, alpha:0, ease:"Linear.easeOut",onComplete:() => {
         this.textToolContainer.visible = true;
+        this.menuContainer.visible = false;
         this.backBtn.visible = true;
         TweenLite.from(this.textToolContainer, 0.5, {alpha:0, ease:"Linear.easeOut"});
         (this.textToolContainer as any).start();
@@ -271,6 +273,7 @@ export class SampleApp {
     private showFireView():void{
         TweenLite.to(this.menuContainer, 0.5, {x:-500, alpha:0, ease:"Linear.easeOut",onComplete:() => {
         this.fireEffectContainer.visible = true;
+        this.menuContainer.visible = false;
         this.backBtn.visible = true;
         TweenLite.from(this.fireEffectContainer, 0.5, {alpha:0, ease:"Linear.easeOut"});
         (this.fireEffectContainer as any).startEmitter();
