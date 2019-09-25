@@ -267,7 +267,7 @@ export class SampleApp {
         this.cardContainer.visible = true;
         this.backBtn.visible = true;
         TweenLite.from(this.cardContainer, 0.5, {alpha:0, ease:"Linear.easeOut"});
-        this.cardContainer.start();
+        (this.cardContainer as any).start();
         }});
     }
 
@@ -276,7 +276,7 @@ export class SampleApp {
         this.textToolContainer.visible = true;
         this.backBtn.visible = true;
         TweenLite.from(this.textToolContainer, 0.5, {alpha:0, ease:"Linear.easeOut"});
-        this.textToolContainer.start();
+        (this.textToolContainer as any).start();
         }});
     }
 
@@ -285,7 +285,7 @@ export class SampleApp {
         this.fireEffectContainer.visible = true;
         this.backBtn.visible = true;
         TweenLite.from(this.fireEffectContainer, 0.5, {alpha:0, ease:"Linear.easeOut"});
-            this.fireEffectContainer.startEmitter();
+        (this.fireEffectContainer as any).startEmitter();
         }});
     }
 
