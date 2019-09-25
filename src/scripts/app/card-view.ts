@@ -56,19 +56,16 @@ export class cardView extends PIXI.Container {
        document.addEventListener("webkitvisibilitychange", this.onVisibilityChanged.bind(this), false);
        document.addEventListener("msvisibilitychange", this.onVisibilityChanged.bind(this), false);
 
-       this.retryBtn = new PIXI.Sprite(this.sheet.textures["btn"]);
+       this.retryBtn = new PIXI.Sprite(this.sheet.textures["restart"]);
        this.retryBtn.anchor.x = this.retryBtn.anchor.y = 0.5;
        this.retryBtn.scale.x = this.retryBtn.scale.y = 0.5;
-       this.retryBtn.x = 150;
+       this.retryBtn.x = 0;
        this.retryBtn.y = 0;
        this.retryBtn.visible = false;
        this.retryBtn.interactive = true;
        this.retryBtn.buttonMode = true;
 
        this.retryBtn.on('pointerdown', this.onReStack.bind(this,this.retryBtn));
-
-       let retryText:PIXI.Text = this.getText("Restack",50);
-       this.retryBtn.addChild(retryText);
 
        this.addChild(this.retryBtn);
     }
@@ -142,7 +139,7 @@ export class cardView extends PIXI.Container {
     private showReset():void{
         this.tweenArr = [];
         this.retryBtn.visible = true;
-        this.retryBtn.x = (this.retryBtn.x == -150) ? 150 : -150;
+        
     }
 
     private reset():void{
@@ -160,7 +157,7 @@ export class cardView extends PIXI.Container {
         for(let i : number = 0; i < this.deckArr.length; i++){
             (this.deckArr[i] as any).side = "left";
             this.deckArr[i].x = -150;
-            this.deckArr[i].index = i;
+            (this.deckArr[i] as any).index = i;
             this.deckArr[i].y = startY + this.deckArr[i].height/2;
             startY += this.gap;
             this.addChild(this.deckArr[i]);
