@@ -10,6 +10,11 @@
     
 } from "pixi-app-wrapper";
 
+
+/**
+     * Container Class which contains Fire particles animation
+*/
+
 export class fireView extends PIXI.Container {
    
     private sheet: any;

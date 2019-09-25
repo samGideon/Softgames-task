@@ -10,42 +10,32 @@ import {
     pixiAppWrapperEvent as WrapperEvent,
     PixiAppWrapperOptions as WrapperOpts,
 } from "pixi-app-wrapper";
-import {Asset, LoadAsset, PixiAssetsLoader, SoundAsset} from "pixi-assets-loader";
 
 import "pixi-particles";
-import "pixi-spine";
-
 
 /**
- * Showcase for PixiAppWrapper class.
+ *  Task App
  */
 export class SampleApp {
+
     private app: Wrapper;
-
-    private screenBorder: PIXI.Graphics;
-  
-
     private dimensions:any = {};
 
     private sheet: any;
     private fx: any;
     private gameScale:number;
-    private particlesEmitter: PIXI.particles.Emitter;
+
     private background:PIXI.Sprite;
     private backBtn:PIXI.Sprite;
+
     private menuContainer:PIXI.Container = new PIXI.Container();
     private cardContainer:PIXI.Container = new PIXI.Container();
     private textToolContainer:PIXI.Container = new PIXI.Container();
     private fireEffectContainer:PIXI.Container = new PIXI.Container();
 
-    
-
-   
-
     constructor() {
         const canvas = Dom.getElementOrCreateNew<HTMLCanvasElement>("app-canvas", "canvas", document.getElementById("app-root"));
 
-        // if no view is specified, it appends canvas to body
         const appOptions: WrapperOpts = {
             width: 640,
             height: 960,
@@ -64,10 +54,11 @@ export class SampleApp {
         this.app.on(WrapperEvent.RESIZE_START, this.onResizeStart.bind(this));
         this.app.on(WrapperEvent.RESIZE_END, this.onResizeEnd.bind(this));
 
-        // Draw views that can be already drawn
+        // Revolt FX particles Class
         const fx = new FX();
         this.fx = fx;
 
+        // Preloading Assets
         PIXI.loader
         .add("assets/atlas/sheet.json")
         .add('fx_settings', 'assets/gfx/default-bundle.json')
@@ -75,7 +66,7 @@ export class SampleApp {
         .add('example_spritesheet', 'assets/gfx/rfx-examples.json')
         .load(function (loader :any, resources:any) {
 		
-            //Init the bundle
+            //Loading Spritesheet
             this.sheet = PIXI.loader.resources["assets/atlas/sheet.json"];
 
             fx.initBundle(resources.fx_settings.data);
@@ -83,8 +74,6 @@ export class SampleApp {
             this.app.ticker.add(function () {
                 //Update the RevoltFX instance
                 fx.update();
-
-               
             });
 
             this.createViews(); 
@@ -93,11 +82,9 @@ export class SampleApp {
     }
 
     private onResizeStart(): void {
-        window.console.log("RESIZE STARTED!");
     }
 
     private onResizeEnd(args: any): void {
-        window.console.log("RESIZE ENDED!", args);
         this.findOffsets();
         this.relocateViews();
     }
@@ -106,29 +93,28 @@ export class SampleApp {
 
     private createViews(): void {
        
-      
+        // Bacground
         let background:PIXI.Sprite = new PIXI.Sprite(this.sheet.textures["bg1"]);
 
         this.background = background;
         this.background.anchor.x = 0.5;
         this.background.anchor.y = 0.5;
         
-    // add it to the stage
         this.findOffsets();
         this.app.stage.addChild(background);
 
         this.addMenus();
 
-        this.cardContainer = new cardView(this.sheet,this.app);
-        this.textToolContainer = new textView(this.sheet,this.app);
-        this.fireEffectContainer = new fireView(this.sheet,this.app,this.fx);
+        this.cardContainer = new cardView(this.sheet,this.app); // card container
+        this.textToolContainer = new textView(this.sheet,this.app); // Text tool container
+        this.fireEffectContainer = new fireView(this.sheet,this.app,this.fx);// Fire Particles container
 
         this.textToolContainer.visible = false;
         this.textToolContainer.visible = false;
         this.cardContainer.visible = false;
         this.fireEffectContainer.visible = false;
 
-        this.backBtn = new PIXI.Sprite(this.sheet.textures["home"]);
+        this.backBtn = new PIXI.Sprite(this.sheet.textures["home"]); // Back or home Btn
         this.backBtn.scale.x = this.backBtn.scale.y = 0.5;
         this.backBtn.anchor.x = this.backBtn.anchor.y = 0.5;
         this.backBtn.x = this.dimensions.rightOffset - 150;
@@ -183,12 +169,8 @@ export class SampleApp {
 
         this.gameScale = (scaleX < scaleY) ? scaleX : scaleY;
 
-        
-        
         this.dimensions.actualWidth = this.app.view.width / this.gameScale;
         this.dimensions.actualHeight = this.app.view.height / this.gameScale;
-
-        
 
         this.dimensions.leftOffset = - (this.dimensions.actualWidth - this.dimensions.gameWidth) / 2;
         this.dimensions.rightOffset = this.dimensions.gameWidth - this.dimensions.leftOffset;
@@ -207,9 +189,12 @@ export class SampleApp {
     
     }
 
+    
+    /**
+     *  Adding Menu 
+     */
+
     private addMenus():void{
-        
-        
         
         let startY:number = 0 - 200;
 
@@ -244,6 +229,9 @@ export class SampleApp {
         
     }
 
+    /**
+     *  Loading The container based on selection
+     */
 
     private onButtonDown(btn:any):void{
       
@@ -289,6 +277,10 @@ export class SampleApp {
         }});
     }
 
+    /**
+     *  Getting the scale value needed to resize Background image
+    */
+
     private getScale(itemWidth : number,itemHeight: number,givenWidth: number,givenHeight: number){
       
         let itemRatio: number = itemWidth / itemHeight;
@@ -312,37 +304,39 @@ export class SampleApp {
         }
     }
 
-   private getText(txt :string,size:number):PIXI.Text{
-    const style:any = new PIXI.TextStyle({
-        fontFamily: 'Arial Rounded MT',
-        fontSize: size,
 
-        fontWeight: 'bold',
-        fill: '#ffffff',
-        dropShadow: true,
-        dropShadowColor: '#ffffff',
-        dropShadowBlur: 1,
-        dropShadowAngle: Math.PI / 6,
-        dropShadowDistance: 2,
-        wordWrap: true,
-        wordWrapWidth: 440,
-    });
+   private getText(txt :string,size:number):PIXI.Text{
+
+        const style:PIXI.TextStyle = new PIXI.TextStyle({
+            fontFamily: 'Arial Rounded MT',
+            fontSize: size,
+
+            fontWeight: 'bold',
+            fill: '#ffffff',
+            dropShadow: true,
+            dropShadowColor: '#ffffff',
+            dropShadowBlur: 1,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 2,
+            wordWrap: true,
+            wordWrapWidth: 440,
+        });
     
         const text:PIXI.Text = new PIXI.Text(txt, style);
-        
         return text;
    }
 
+   /**
+     *  Positon the Containers based on the device orientation and resolution
+    */
+   
     private relocateViews(): void {
-       
-        this.app.stage.removeChild(this.screenBorder);
         
         this.findOffsets();
 
        if(this.background){
 
             let scale = this.getScale(this.app.view.width,this.app.view.height,960,960);
-
             
             if( window.innerWidth > window.innerHeight){
                 scale = this.getScale(this.app.view.width,this.app.view.height,960,960);
@@ -362,7 +356,6 @@ export class SampleApp {
             }
 
        }
-
       
        this.menuContainer.x = this.dimensions.gameWidth/2;
        this.menuContainer.y = this.dimensions.gameHeight/2;

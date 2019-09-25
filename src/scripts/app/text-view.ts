@@ -10,6 +10,10 @@ import {TimelineLite} from "gsap";
     
 } from "pixi-app-wrapper";
 
+/**
+     * Container Class which contains the text tool
+*/
+
 export class textView extends PIXI.Container {
     private sheet: any;
     private app: Wrapper;
@@ -28,16 +32,19 @@ export class textView extends PIXI.Container {
         this.generateTypes();
     }
 
+
+    // --- Generate the types randomly ---//
+
     private generateTypes():void{
         
         if(!this.visible) return;
 
         let str:string;
-
         let types:Array<String> = ["t","i","e"]; 
 
         let container:PIXI.Container = new PIXI.Container();
         this.addChild(container);
+
         let textSize = this.getRandomNumberinRange(20,100);
         for(let i :number = 0 ; i < 3 ; i++){
 
@@ -48,13 +55,14 @@ export class textView extends PIXI.Container {
         this.adjustPositions(container);
 
         let tween:TimelineLite = new TimelineLite();
-
         tween.from(container, 0.2, {y: container.y - 25 ,alpha : 0, ease:"Linear.easeOut"}).to(container, 0.2, {alpha: 0, y: container.y + 100,onComplete:() => {
            
            this.generateTypes();
            container.destroy();
-        }}, "+=2");
+        }}, "+=2"); // Tween Every container with 2 min delay and destroy on complete
     }
+
+    // --- Choose a object based on value (Text,EMoji,Image) ---//
 
     private addTypes(randomNo:number,holder:PIXI.Container,textSize:number):void{
         switch(randomNo){
@@ -88,6 +96,8 @@ export class textView extends PIXI.Container {
         return text;
     }
 
+    // --- Adjusting positons of container childrens ---//
+
     private adjustPositions(holder:PIXI.Container):void{
         
         holder.children[0].x = 0;
@@ -100,6 +110,8 @@ export class textView extends PIXI.Container {
         holder.x -=  holder.width/2;
     }
 
+     // --- Function to get Emoji ---//
+
     private getEmoji():string{
         let code:string = '1f628';
         
@@ -111,7 +123,7 @@ export class textView extends PIXI.Container {
         return code;
     }
     
-
+    // --- Function to get random text ---//
     private generateRandomText():string{
         let text :string = '';
         let letters:string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -124,6 +136,7 @@ export class textView extends PIXI.Container {
         return text;
     }
 
+     // --- Function to get random image ---//
     private generateRandomImage():PIXI.Sprite{
         let imageName :string = 'icon';
         imageName += this.getRandomNumberinRange(1,5);
@@ -136,9 +149,8 @@ export class textView extends PIXI.Container {
         return img;
     }
 
-
+     // --- Function to get random number ---//
     private getRandomNumberinRange(min:number,max:number):number{
-       
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
     
