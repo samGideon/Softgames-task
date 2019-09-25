@@ -58,7 +58,7 @@
 },
 "icon4":
 {
-	"frame": {"x":842,"y":1061,"w":102,"h":93},
+	"frame": {"x":152,"y":1098,"w":102,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":93},
@@ -66,11 +66,19 @@
 },
 "icon5":
 {
-	"frame": {"x":152,"y":1098,"w":86,"h":100},
+	"frame": {"x":256,"y":1098,"w":86,"h":100},
 	"rotated": true,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":100},
 	"sourceSize": {"w":86,"h":100}
+},
+"restart":
+{
+	"frame": {"x":842,"y":1061,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
 },
 "wood":
 {
@@ -88,8 +96,8 @@
 	"version": "1.0",
 	"image": "sheet.png",
 	"format": "RGBA8888",
-	"size": {"w":962,"h":1185},
+	"size": {"w":962,"h":1192},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:eb302797ede0f7909a419aff5bc2a715:453a01373591173e1399122c57747c6b:9c44ecd7e9a522007eaff2949095bc1d$"
+	"smartupdate": "$TexturePacker:SmartUpdate:850943c77f5f4f0eb3b04253a69335a7:1338a529451a7020f1cab7a98da36939:9c44ecd7e9a522007eaff2949095bc1d$"
 }
 }
