@@ -10,7 +10,12 @@
     
 } from "pixi-app-wrapper";
 
+/**
+     * Container Class which contains the card animation task
+*/
+
 export class cardView extends PIXI.Container {
+
     private currentCardCount:number = 0;
     private dropCount:number = 0;
     private gap:number = 3;
@@ -23,15 +28,17 @@ export class cardView extends PIXI.Container {
     private app: Wrapper;
     private retryBtn:PIXI.Sprite;
 
-    private currentTween:TimelineLite ;
     private tweenArr :Array<TimelineLite> = [];
-    constructor(sheet:any,app:Wrapper) {
-        
+
+
+    constructor(sheet:any,app:Wrapper) {    
         super();
         this.app = app;
         this.sheet = sheet;
         this.init();
     }
+
+    // --------- Adding Cards and retry Button ----//
 
     private init():void{
         let startY:number = -320;
@@ -70,11 +77,13 @@ export class cardView extends PIXI.Container {
        this.addChild(this.retryBtn);
     }
 
+    // --------- Start Function to be called on Card selection in Menu page  ----//
     private start():void{
         this.retryBtn.visible = false;
         this.timeout();
     }
 
+    // --------- Restack cards  ----//
     private onReStack(btn:PIXI.Sprite):void{
         this.dropCount = 0;
         this.deckArr.reverse();
@@ -82,6 +91,8 @@ export class cardView extends PIXI.Container {
         this.currentCardCount = this.deckArr.length;
         this.timeout();
     }
+
+    // --------- Tween cards to the other stack ----//
 
     private tweenCard():void{
         let startY:number = -320;
@@ -101,47 +112,43 @@ export class cardView extends PIXI.Container {
         tween.to(spr, this.animationSpeed, {x:xpos,y: startY + (spr.index * this.gap + spr.height/2) , ease:"Linear.easeOut", onStart:() => {
             spr.side = (spr.side == "left") ? "right" : "left";
             this.addChild(spr);
-            
         },onComplete:() => {
             this.dropCount++;
             if(this.dropCount == this.totalCards) this.showReset();
         }});
         
     }
-
+    
     private getText(txt :string,size:number):PIXI.Text{
         const style = new PIXI.TextStyle({
             fontFamily: 'Arial Rounded MT',
             fontSize: size,
-    
             fontWeight: 'bold',
             fill: '#333333',
-           
         });
         
-            const text:PIXI.Text = new PIXI.Text(txt, style);
-            text.x -= text.width/2;
-            text.y -= text.height/2;
-            return text;
-       }
+        const text:PIXI.Text = new PIXI.Text(txt, style);
+        text.x -= text.width/2;
+        text.y -= text.height/2;
+        return text;
+    }
+
+     // --------- SetInterval Function to move cards from one deck to another ----//
 
     private timeout():void{
-       
         this.tweenInterval = setTimeout(() => {
-           
             this.tweenCard();
             if(this.currentCardCount > 0)
             this.timeout();
-           
         }, this.cardSpeed);
     }
 
     private showReset():void{
         this.tweenArr = [];
         this.retryBtn.visible = true;
-        
     }
 
+     // --------- SetInterval Function to move cards from one deck to another ----//
     private reset():void{
         clearTimeout(this.tweenInterval);
         
